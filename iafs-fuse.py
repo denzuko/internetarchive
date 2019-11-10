@@ -34,11 +34,7 @@ class iafs(Passthrough):
             if not os.path.exists(fallbackPath):
                 ## Write opperation?
                 ## Upload to the archive
-                # This is probabily a write operation, so prefer to use the
-                # primary path either if the directory of the path exists in the
-                # primary FS or not exists in the fallback FS
-                
-                
+                               
                 ## TOOD: Upload...
                 
                 primaryDir = os.path.dirname(primaryPath)
@@ -47,26 +43,27 @@ class iafs(Passthrough):
                     path = primaryPath
         return path
       
+    # read metadata
     def getattr(self, path, fh=None):
         full_path = self._full_path(path)
-        st = os.lstat(full_path)
-        return dict((key, getattr(st, key)) for key in ('st_atime', 'st_ctime',
-                                                        'st_gid', 'st_mode', 'st_mtime', 'st_nlink', 'st_size', 'st_uid', 'st_blocks')) 
-
+        st = get_item(full_path)
+        return {
+            'st_atime': st['created'],
+            'st_ctime': st['created'],
+            'st_mtime': st['updated'],
+            'st_size': st['item_size'],
+            'st_gid': 0,
+            'st_uid': 0
+        }
+    
     def readdir(self, path, fh):
         dirents = ['.', '..']
         full_path = self._full_path(path)
-        # print("listing " + full_path)
-        if os.path.isdir(full_path):
-            dirents.extend(os.listdir(full_path))
-        if self.fallbackPath not in full_path:
-            full_path = self._full_path(path, useFallBack=True)
-            # print("listing_ext " + full_path)
-            if os.path.isdir(full_path):
-                dirents.extend(os.listdir(full_path))
-        for r in list(set(dirents)):
+
+        # search IA.. (ls ./nasa => ?query=nasa)
+        for r in search_items(full_path)iter_as_items():
             yield r
-            
+
 def main(mountpoint, root, fallbackPath):
     FUSE(dfs(root, fallbackPath), mountpoint, nothreads=True,
          foreground=True, **{'allow_other': True})
