@@ -1,7 +1,7 @@
 A Filesystem Interface to Archive.org
 ==================================================
 
-|travis||
+|travis|
 
 .. |travis| image:: https://travis-ci.org/denzuko/internetarchive.svg
     :target: https://travis-ci.org/denzuko/internetarchive
