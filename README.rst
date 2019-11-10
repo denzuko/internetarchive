@@ -1,15 +1,12 @@
-A Python and Command-Line Interface to Archive.org
+A Filesystem Interface to Archive.org
 ==================================================
 
 |travis| |snapcraft|
 
-.. |travis| image:: https://travis-ci.org/jjjake/internetarchive.svg
-    :target: https://travis-ci.org/jjjake/internetarchive
-.. |snapcraft| image:: https://build.snapcraft.io/badge/jjjake/internetarchive.svg
-    :target: https://build.snapcraft.io/user/jjjake/internetarchive
-    :alt: Snap Status
+.. |travis| image:: https://travis-ci.org/denzuko/internetarchive.svg
+    :target: https://travis-ci.org/denzuko/internetarchive
 
-This package installs a command-line tool named ``ia`` for using Archive.org from the command-line.
+This package installs a fuse filesystem ``ia`` for using Archive.org from the filesystem.
 It also installs the ``internetarchive`` Python module for programatic access to archive.org.
 Please report all bugs and issues on `Github <https://github.com/jjjake/internetarchive/issues>`__.
 
@@ -21,7 +18,7 @@ You can install this module via pip:
 
 .. code:: bash
 
-    $ pip install internetarchive
+    $ pip install internetarchive-fuse
 
 Binaries of the command-line tool are also available:
 
